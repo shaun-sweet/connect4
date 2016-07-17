@@ -1,0 +1,132 @@
+body {
+	margin: auto;
+	width: 80%;
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	display: flex;
+	flex: 1 0 auto;
+}
+
+/*
+*************************
+TOP LEVEL COMPONENTS
+*************************
+*/
+
+header {
+	display: flex;
+	justify-content: center;
+	
+	padding: 1em;
+}
+
+#game-controls {
+	display: flex;
+	flex-flow: column;
+}
+
+#board-container {
+
+}
+
+#game-info {
+	display: flex;
+	justify-content: center;
+}
+
+#ad-container-left {
+	color: blue;
+	flex: 4;
+}
+
+#ad-container-right {
+	color: red;
+	flex: 4;
+	display: flex;
+	justify-content: 
+}
+
+#ad-container-bottom {
+	flex: 4;
+	align-self: center;
+}
+
+/*
+*************************
+HEADER COMPONENTS
+*************************
+*/
+
+#title {
+	flex: 1;
+	color: #0288D1;
+}
+
+/*
+*************************
+GAME CONTROLS COMPONENTS
+*************************
+*/
+
+#game-controls p {
+	margin: 0;
+}
+
+/*
+*************************
+GAME CONTROLS COMPONENTS
+*************************
+*/
+#game-info h2 {
+	color: #FF5722;
+}
+
+/*
+*************************
+BOARD CONTAINER COMPONENTS
+*************************
+*/
+
+.row {
+	display: flex;
+	/*flex: 1;*/
+	background-color: #03A9F4;
+	
+	align-items: center;
+}
+
+.col {
+	display: flex;
+	width: 70px;
+	height: 70px;
+	padding: .5em;
+	/*border: solid 1px green;*/
+}
+
+.piece {
+	flex: 1;
+	border-radius: 50%;
+	background-color: white;
+	
+}
+
+/*
+*************************
+AD CONTAINER COMPONENTS
+*************************
+*/
+#right-ad-text {
+	color: green;
+	margin: 0px;
+	margin-left: auto;
+}
+/*
+COLORS
+*/
+.accent {
+	color: #FF5722;
+}
