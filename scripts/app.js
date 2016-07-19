@@ -24,11 +24,13 @@ const winConditions = {
 
 class ConnectFour {
   
-  constructor(){
-    this.player1;
-    this.player2;
+  constructor(player1, player2){
+    this.player1 = player1;
+    this.player2 = player2;
     this.board = [];
+    this.currentTurn = player1;
     this._populateBoard();
+    this.gameWon = false;
   }
 
 
@@ -36,46 +38,41 @@ class ConnectFour {
     return this.board;
   }
 
-  playTurn(column, player) {
+  playTurn(column) {
     if (this._ifColumnFull(column)) {
       return "This isn't a valid move";
+    } else if (this.gameWon){
+      console.log("Game is won!");
+      return "Game has been won";
     }
     for (var row = 0; row < 6; row ++) {
       // if column hasn't been played, place piece on the bottom
       if (this.board[row][column] == null && row == 5) {
-        this.board[row][column] = player;
-        // console.log(this._checkForWin(row, column));
+        this.board[row][column] = this.currentTurn;
+        this.gameWon = this._checkForWin(row, column);
         break;
       }
       // Finds the first "placed piece" and places one, one row above it
       if (this.board[row][column] != null && row != 0) {
-         this.board[row - 1][column] = player;
-         // console.log(this._checkForWin(row, column));
-         break;
+        this.board[row - 1][column] = this.currentTurn;
+        this.gameWon = this._checkForWin(row - 1, column);
+        break;
       }
     }
+    this._switchPlayerTurn();
   }
 
   _checkForWin(row, column) {
+    var currentCell = {
+      row: row,
+      column: column
+    };
+    console.log(currentCell);
     var color = this.board[row][column];
     for (var winCondition in winConditions) {
       var successiveColors = 1;
       for (var directions in winConditions[winCondition]) {
-        this._checkAdjacentSpaces();
-        // var nextCell = {
-        //   row: row + winConditions[winCondition][directions].row,
-        //   column: column + winConditions[winCondition][directions].column
-        // };
-        // // Make sure the check is within bounds of the board
-        // if (this._cellOutOfBounds(nextCell)) {
-        //   continue;
-        // }else{
-        //   if (this.board[nextCell.row][nextCell.column] === color) {
-        //     successiveColors ++;
-        //   }else{
-        //     continue;
-        //   }
-        // }
+        successiveColors += this._checkAdjacentSpaces(currentCell, color, winConditions[winCondition][directions], 0);
       }
       if (successiveColors > 3) {
         return true;
@@ -84,21 +81,24 @@ class ConnectFour {
     return false;
   }
 
-  _checkAdjacentSpaces() {
+  _checkAdjacentSpaces(currentCell, color, direction, iterationNum) {
     var nextCell = {
-      row: row + winConditions[winCondition][directions].row,
-      column: column + winConditions[winCondition][directions].column
+      row: currentCell.row + direction.row,
+      column: currentCell.column + direction.column
     };
-    // Make sure the check is within bounds of the board
-    if (this._cellOutOfBounds(nextCell)) {
-      return;
+    // Base cases for function.  If the direction takes the next cell out of bounds or the cell isn't the same as the previous one or it has done its 3 passes
+    if (this._cellOutOfBounds(nextCell) || this.board[nextCell.row][nextCell.column] != color || iterationNum > 2) {
+      return 0;
     }else{
-      if (this.board[nextCell.row][nextCell.column] === color) {
-        successiveColors ++;
-        
-      }else{
-        continue;
-      }
+      return 1 + this._checkAdjacentSpaces(nextCell, color, direction, iterationNum + 1);
+    }
+  }
+
+  _switchPlayerTurn() {
+    if (this.currentTurn == this.player1) {
+      this.currentTurn = this.player2
+    } else {
+      this.currentTurn = this.player1
     }
   }
 
@@ -129,13 +129,13 @@ class ConnectFour {
 
 }
 
-var a = new ConnectFour();
-a.playTurn(0, 'black');
-a.playTurn(0, 'black');
-a.playTurn(0, 'black');
-a.playTurn(0, 'black');
+var a = new ConnectFour("black", "blue");
+a.playTurn(0);
+a.playTurn(1);
+a.playTurn(2);
+a.playTurn(3);
 
-// a.playTurn(0, 'red');
+a.playTurn(0);
 // a.playTurn(0, 'red');
 // a.playTurn(0, 'red');
 // a.playTurn(0, 'red');
