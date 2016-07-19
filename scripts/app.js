@@ -91,10 +91,11 @@ class ConnectFour {
     };
     // Make sure the check is within bounds of the board
     if (this._cellOutOfBounds(nextCell)) {
-      continue;
+      return;
     }else{
       if (this.board[nextCell.row][nextCell.column] === color) {
         successiveColors ++;
+        
       }else{
         continue;
       }
